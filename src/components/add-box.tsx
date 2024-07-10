@@ -7,8 +7,7 @@ const Addingbox = styled.div`
 `;
 
 const AddList = () => {
-  const { list, setList } = useContext(ListContext);
-  const [newList, setNewList] = useState<string>("");
+  const { list, setList, newList, setNewList } = useContext(ListContext);
 
   const addToList = () => {
     const listAdded = list.includes(newList) ? list : [...list, newList];
@@ -16,6 +15,8 @@ const AddList = () => {
     setList(listAdded);
     setNewList("");
   };
+
+  console.log(newList);
 
   return (
     <Addingbox>
@@ -25,9 +26,10 @@ const AddList = () => {
           <input
             type="text"
             value={newList}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setNewList(event.target.value)
-            }
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setNewList(event.target.value);
+              console.log(newList);
+            }}
           />
         </label>
         <button
