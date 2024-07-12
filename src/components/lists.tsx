@@ -7,7 +7,7 @@ const Listsbox = styled.div`
 `;
 
 const ToDoList = () => {
-  const { list, setList, newList, setNewList } = useContext(ListContext);
+  const { list, setList, newList } = useContext(ListContext);
   const [edit, setEdit] = useState(false);
   const [editedList, setEditedList] = useState("");
 
@@ -33,12 +33,12 @@ const ToDoList = () => {
         {list.map((each: string, i) => {
           const copiedValue = each.toString();
           return (
-            <>
+            <div key={each}>
               {edit ? (
                 <>
                   <input
                     type="text"
-                    key={i}
+                    data-testid="edit-input"
                     value={editedList ? editedList : copiedValue}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setEditedList(event.target.value)
@@ -54,7 +54,7 @@ const ToDoList = () => {
                   </button>
                 </>
               ) : (
-                <li key={i}>{each}</li>
+                <li>{each}</li>
               )}
               <button
                 onClick={(event) => {
@@ -66,7 +66,7 @@ const ToDoList = () => {
                 Delete
               </button>
               <button onClick={() => setEdit(true)}>Edit</button>
-            </>
+            </div>
           );
         })}
       </ul>

@@ -26,6 +26,7 @@ const AddList = () => {
           <input
             type="text"
             value={newList}
+            placeholder="please input your to-do"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setNewList(event.target.value);
               console.log(newList);
