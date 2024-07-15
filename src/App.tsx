@@ -7,21 +7,32 @@ const Heading = styled.h1`
   text-align: center;
 `;
 
+export interface ListType {
+  num: number;
+  content: string;
+}
+
 export const ListContext = createContext<{
-  list: Array<string>;
-  setList: React.Dispatch<React.SetStateAction<Array<string>>>;
-  newList: string;
-  setNewList: React.Dispatch<React.SetStateAction<string>>;
+  list: ListType[];
+  setList: React.Dispatch<React.SetStateAction<ListType[]>>;
+  newList: ListType;
+  setNewList: React.Dispatch<React.SetStateAction<ListType>>;
 }>({
-  list: ["wash", "clean"],
+  list: [
+    { num: 1, content: "wash" },
+    { num: 2, content: "clean" },
+  ],
   setList: () => {},
-  newList: "",
+  newList: { num: 0, content: "" },
   setNewList: () => {},
 });
 
 function App() {
-  const [list, setList] = useState(["wash", "clean"]);
-  const [newList, setNewList] = useState<string>("");
+  const [list, setList] = useState([
+    { num: 1, content: "wash" },
+    { num: 2, content: "clean" },
+  ]);
+  const [newList, setNewList] = useState<ListType>({ num: 0, content: "" });
   return (
     <>
       <Heading>My TO-DO-LIST</Heading>

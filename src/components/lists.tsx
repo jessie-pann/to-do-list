@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ListContext } from "../App";
+import { ListType } from "../App";
 
 const Listsbox = styled.div`
   text-align: center;
@@ -9,53 +10,64 @@ const Listsbox = styled.div`
 const ToDoList = () => {
   const { list, setList, newList } = useContext(ListContext);
   const [edit, setEdit] = useState(false);
-  const [editedList, setEditedList] = useState("");
+  const [editedContent, setEditedContent] = useState("");
+  const [listSelected, setListSelected] = useState<ListType | null>(null);
 
-  const deleteList = (value: string) => {
-    const listAfterDeleted = list.filter((each) => each !== value);
+  const deleteList = (value: ListType) => {
+    const listAfterDeleted = list
+      .filter((each) => each.content !== value.content)
+      .map((eachList: ListType, i) => ({
+        ...eachList,
+        num: i + 1,
+      }));
+
+    console.log(listAfterDeleted);
     setList(listAfterDeleted);
   };
 
-  const editingList = (valueNew: string, valueOld: string) => {
-    const listAfterEdited = list.includes(valueNew)
-      ? list
-      : [...list, valueNew];
-    const deleteTheEdited = listAfterEdited.filter(
-      (each: string) => each !== valueOld
-    );
-    setList(deleteTheEdited);
+  const editingList = (newContent: string, listbeingSelected: ListType) => {
     setEdit(false);
+
+    const updatedList = list.map((each: ListType) =>
+      each.num === listbeingSelected.num
+        ? { ...each, content: newContent }
+        : each
+    );
+
+    setList(updatedList);
+
+    setListSelected(null);
   };
 
   return (
     <Listsbox>
-      <ul>
-        {list.map((each: string, i) => {
-          const copiedValue = each.toString();
+      <ul style={{ listStyleType: "none" }}>
+        {list.map((each: ListType) => {
           return (
-            <div key={each}>
-              {edit ? (
+            <div key={each.content}>
+              {edit && listSelected === each ? (
                 <>
                   <input
                     type="text"
-                    data-testid="edit-input"
-                    value={editedList ? editedList : copiedValue}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setEditedList(event.target.value)
-                    }
+                    value={editedContent ? editedContent : each.content}
+                    onChange={(event) => setEditedContent(event.target.value)}
                   />
                   <button
                     onClick={(event) => {
                       event.preventDefault();
-                      editingList(editedList, each);
+                      editingList(editedContent, listSelected);
+                      setEditedContent("");
                     }}
                   >
                     Save
                   </button>
                 </>
               ) : (
-                <li>{each}</li>
+                <li>
+                  {each.num} {each.content}
+                </li>
               )}
+
               <button
                 onClick={(event) => {
                   event.preventDefault();
@@ -65,7 +77,14 @@ const ToDoList = () => {
               >
                 Delete
               </button>
-              <button onClick={() => setEdit(true)}>Edit</button>
+              <button
+                onClick={() => {
+                  setEdit(true);
+                  setListSelected(each);
+                }}
+              >
+                Edit
+              </button>
             </div>
           );
         })}
