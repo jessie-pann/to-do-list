@@ -8,7 +8,7 @@ const Listsbox = styled.div`
 `;
 
 const ToDoList = () => {
-  const { list, setList, newList } = useContext(ListContext);
+  const { list, setList } = useContext(ListContext);
   const [edit, setEdit] = useState(false);
   const [editedContent, setEditedContent] = useState("");
   const [listSelected, setListSelected] = useState<ListType | null>(null);
@@ -37,6 +37,7 @@ const ToDoList = () => {
     setList(updatedList);
 
     setListSelected(null);
+    setEditedContent("");
   };
 
   return (
@@ -49,6 +50,7 @@ const ToDoList = () => {
                 <>
                   <input
                     type="text"
+                    data-testid="edit-input"
                     value={editedContent ? editedContent : each.content}
                     onChange={(event) => setEditedContent(event.target.value)}
                   />
