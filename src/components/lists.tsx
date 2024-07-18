@@ -65,7 +65,7 @@ const ToDoList = () => {
                   </button>
                 </>
               ) : (
-                <li>
+                <li data-testid="list-element">
                   {each.num} {each.content}
                 </li>
               )}
