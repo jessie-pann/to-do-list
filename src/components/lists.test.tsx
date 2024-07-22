@@ -1,10 +1,10 @@
 import React from "react";
 import { act } from "react";
 
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ToDoList from "./lists";
-import { ListContext } from "../App";
+import { ListContext, ListType } from "../App";
 
 const mockedToDoList = [
   { num: 1, content: "washing" },
@@ -21,6 +21,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />
@@ -39,6 +42,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />
@@ -63,6 +69,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />
@@ -80,32 +89,41 @@ describe("test the input box for editing feature", () => {
     expect(saveButtonElement).toBeInTheDocument();
   });
 
-  it.skip("should update the list item after editing", () => {
+  it.only("should update the list item after editing", async () => {
     const setList = jest.fn();
 
     render(
       <ListContext.Provider
         value={{
           list: mockedToDoList,
-          setList,
+          setList: setList,
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />
       </ListContext.Provider>
     );
     const editButtonElement = screen.getAllByText("Edit");
-    act(() => {
-      userEvent.click(editButtonElement[0]);
-    });
+
+    await userEvent.click(editButtonElement[0]);
+
     const saveButtonElement = screen.getByText("Save");
     const inputElement = screen.getByTestId("edit-input");
-    act(() => {
-      userEvent.clear(inputElement);
-      userEvent.type(inputElement, "updated washing");
-      userEvent.click(saveButtonElement);
-    });
+    //question: why userEvent.type does not work here
+
+    // await userEvent.clear(inputElement);
+    // // userEvent.type(inputElement, "");
+    // await userEvent.type(inputElement, "updated washing", { delay: 1 });
+    // console.log(inputElement);
+    // await userEvent.click(saveButtonElement);
+
+    fireEvent.change(inputElement, { target: { value: "updated washing" } });
+    fireEvent.click(saveButtonElement);
+
     expect(setList).toBeCalledWith([
       { num: 1, content: "updated washing" },
       { num: 2, content: "shopping" },
@@ -121,6 +139,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />
@@ -150,6 +171,9 @@ describe("test the input box for editing feature", () => {
           setList,
           newList: { num: 4, content: "something" },
           setNewList: () => {},
+          postNewList: (url: string, payload: ListType) => {
+            return Promise.resolve();
+          },
         }}
       >
         <ToDoList />

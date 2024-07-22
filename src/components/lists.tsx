@@ -13,6 +13,11 @@ const ToDoList = () => {
   const [editedContent, setEditedContent] = useState("");
   const [listSelected, setListSelected] = useState<ListType | null>(null);
 
+  // const deleteAPI = async (num: number) => {
+  //   const
+
+  // }
+
   const deleteList = (value: ListType) => {
     const listAfterDeleted = list
       .filter((each) => each.content !== value.content)
@@ -21,7 +26,6 @@ const ToDoList = () => {
         num: i + 1,
       }));
 
-    console.log(listAfterDeleted);
     setList(listAfterDeleted);
   };
 

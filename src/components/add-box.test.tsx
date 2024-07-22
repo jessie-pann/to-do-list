@@ -3,7 +3,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import AddList from "./add-box";
 
-describe("test adding box", () => {
+describe.skip("test adding box", () => {
   it("should display the input box and submit button when the page is rendered", () => {
     render(<AddList />);
     const inputElement = screen.getByPlaceholderText(

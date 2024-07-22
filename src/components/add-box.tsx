@@ -8,19 +8,25 @@ const Addingbox = styled.div`
 `;
 
 const AddList = () => {
-  const { list, setList, newList, setNewList } = useContext(ListContext);
+  const { list, setList, newList, setNewList, postNewList } =
+    useContext(ListContext);
 
   const addToList = () => {
+    postNewList("http://localhost:4000/api/todolist", newList)
+      .then(() => {
+        //loading status
+      })
+      .catch((e) => {
+        console.error(e);
+      });
     const allContents = list.map((each: ListType) => each.content);
     const listAdded = allContents.includes(newList.content)
       ? list
       : [...list, newList];
-    console.log(listAdded, list);
+
     setList(listAdded);
     setNewList({ num: 0, content: "" });
   };
-
-  console.log(newList);
 
   return (
     <Addingbox>
@@ -33,7 +39,6 @@ const AddList = () => {
             placeholder="please input your to-do"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setNewList({ num: list.length + 1, content: event.target.value });
-              console.log(newList);
             }}
           />
         </label>
