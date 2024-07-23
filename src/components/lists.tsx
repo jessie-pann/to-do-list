@@ -62,7 +62,6 @@ const ToDoList = () => {
                     type="text"
                     data-testid="edit-input"
                     placeholder={each.content}
-                    //value={editedContent ? editedContent : each.content}
                     value={editedContent}
                     onChange={(event) => setEditedContent(event.target.value)}
                   />
@@ -95,6 +94,7 @@ const ToDoList = () => {
                 onClick={() => {
                   setEdit(true);
                   setListSelected(each);
+                  setEditedContent(each.content);
                 }}
               >
                 Edit
