@@ -8,11 +8,15 @@ const Addingbox = styled.div`
 `;
 
 const AddList = () => {
-  const { list, setList, newList, setNewList, postNewList } =
-    useContext(ListContext);
+  const { list, setList, newList, setNewList } = useContext(ListContext);
 
   const addToList = () => {
-    postNewList("http://localhost:4000/api/todolist", newList)
+    // postNewList("http://localhost:4000/api/todolist", newList)
+    fetch("http://localhost:4000/api/todolist", {
+      body: JSON.stringify(newList),
+      method: "POST",
+      headers: [["Content-Type", "application/json"]],
+    })
       .then(() => {
         //loading status
       })

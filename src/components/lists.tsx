@@ -13,12 +13,12 @@ const ToDoList = () => {
   const [editedContent, setEditedContent] = useState("");
   const [listSelected, setListSelected] = useState<ListType | null>(null);
 
-  // const deleteAPI = async (num: number) => {
-  //   const
-
-  // }
-
   const deleteList = (value: ListType) => {
+    fetch(`http://localhost:4000/api/todolist/${value.num}`, {
+      body: JSON.stringify(value),
+      method: "DELETE",
+      headers: [["Content-Type", "application/json"]],
+    });
     const listAfterDeleted = list
       .filter((each) => each.content !== value.content)
       .map((eachList: ListType, i) => ({
@@ -30,6 +30,12 @@ const ToDoList = () => {
   };
 
   const editingList = (newContent: string, listbeingSelected: ListType) => {
+    fetch(`http://localhost:4000/api/todolist/${listbeingSelected.num}`, {
+      body: JSON.stringify({ num: listbeingSelected.num, content: newContent }),
+      method: "PUT",
+      headers: [["Content-Type", "application/json"]],
+    });
+
     setEdit(false);
 
     const updatedList = list.map((each: ListType) =>
@@ -55,7 +61,9 @@ const ToDoList = () => {
                   <input
                     type="text"
                     data-testid="edit-input"
-                    value={editedContent ? editedContent : each.content}
+                    placeholder={each.content}
+                    //value={editedContent ? editedContent : each.content}
+                    value={editedContent}
                     onChange={(event) => setEditedContent(event.target.value)}
                   />
                   <button

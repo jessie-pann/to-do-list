@@ -21,9 +21,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
@@ -42,9 +42,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
@@ -69,9 +69,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
@@ -99,9 +99,9 @@ describe("test the input box for editing feature", () => {
           setList: setList,
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
@@ -115,14 +115,14 @@ describe("test the input box for editing feature", () => {
     const inputElement = screen.getByTestId("edit-input");
     //question: why userEvent.type does not work here
 
-    // await userEvent.clear(inputElement);
-    // // userEvent.type(inputElement, "");
-    // await userEvent.type(inputElement, "updated washing", { delay: 1 });
-    // console.log(inputElement);
-    // await userEvent.click(saveButtonElement);
+    await userEvent.clear(inputElement);
+    // userEvent.type(inputElement, "");
+    await userEvent.type(inputElement, "updated washing", { delay: 1 });
+    console.log(inputElement);
+    await userEvent.click(saveButtonElement);
 
-    fireEvent.change(inputElement, { target: { value: "updated washing" } });
-    fireEvent.click(saveButtonElement);
+    // fireEvent.change(inputElement, { target: { value: "updated washing" } });
+    // fireEvent.click(saveButtonElement);
 
     expect(setList).toBeCalledWith([
       { num: 1, content: "updated washing" },
@@ -139,9 +139,9 @@ describe("test the input box for editing feature", () => {
           setList: () => {},
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
@@ -171,9 +171,9 @@ describe("test the input box for editing feature", () => {
           setList,
           newList: { num: 4, content: "something" },
           setNewList: () => {},
-          postNewList: (url: string, payload: ListType) => {
-            return Promise.resolve();
-          },
+          // postNewList: (url: string, payload: ListType) => {
+          //   return Promise.resolve();
+          // },
         }}
       >
         <ToDoList />
